@@ -15,7 +15,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $profileUrlErr = "Profile URL is required";
   }
 
-echo "<h4 style='color:FF0000;'>ripping " . $_POST["profileUrl"] . "</h4>";
+echo "<h4 style='color:#FF0000;'>ripping " . $_POST["profileUrl"] . "</h4>";
 $profileUrl = $_POST["profileUrl"];
 if(substr( $profileUrl, 0, 40 ) === "https://get.google.com/u/0/albumarchive/")
 {
@@ -32,7 +32,11 @@ if(substr( $profileUrl, 0, 40 ) === "https://get.google.com/u/0/albumarchive/")
 
   preg_match_all("/".$re2.$re3.$re4.$re5.$re6.$re7.$re8."/is", $homepage, $output_array);
 
- print_r($output_array);
+   //print_r($output_array);
+    foreach ($output_array as $item){
+
+        echo $item;
+    }
 }
 else
 {
@@ -52,14 +56,14 @@ function test_input($data) {
 
 
 <h1>Google+ Image Ripper</h1>
-<h2>Handy image ripper for a given Google+ Profile link eg. https://get.google.com/u/0/albumarchive/<profile_key></h2>
+<h2>Handy image ripper for a given Google+ Profile link eg. https://get.google.com/u/0/albumarchive/profile_key</h2>
 
-</br>
+<br>
 
 <h2>Google Plus Profile</h2>
 <p><span class="error">* required field.</span></p>
 <form method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>">
-  Profile URL: <input type="text" name="profileUrl" value="<?php echo $profileUrl;?>" size="100">
+  Profile URL: <input title="cc" type="text" name="profileUrl" value="<?php echo $profileUrl;?>" size="100">
   <span class="error">* <?php echo $profileUrlErr;?></span>
 
   <input type="submit" name="submit" value="Submit">

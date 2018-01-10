@@ -27,12 +27,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 		//echo $homepage;
 
-		$re1='.*?';	# Non-greedy match on filler
-		$re2='(url)';	# Word 1
-		$re3='.*?';	# Non-greedy match on filler
-		$re4='(".*?")';	# Double Quote String 1
-		$re5='.*?';	# Non-greedy match on filler
-		$re6='(".*?")';	# Double Quote String 1
+		$re1='.*?';
+		$re2='(url)';
+		$re3='.*?';
+		$re4='(".*?")';
+		$re5='.*?';
+		$re6='(".*?")';
 		preg_match_all("/".$re2.$re3.$re4.$re5.$re6."/is", $homepage, $matches, PREG_SET_ORDER);
 
 		foreach ($matches as $val) {

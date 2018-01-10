@@ -1,0 +1,27 @@
+http://www.stefanocottafavi.com/get-google-photos-rss-feed/
+
+How to get a Google Photos RSS feed
+Want create site? Find Free WordPress Themes and plugins.
+Google Photo is a very effective tool to backup pictures and videos on a mobile device to your Google online services. The backup media are private by default but can be easily shared within the Google service marking them as public via a link, Google+ or creating an Album.
+
+BUILD THE RSS FEED
+To reuse an Album (made of pictures or videos) outside of the Google realm avoiding duplication, the RSS feed of the specific source should be used. This can’t be obtained from the Photos user interface but using the API as follow
+
+http://photos.googleapis.com/data/feed/api/user/<user ID>/albumid/<album ID>?alt=rss
+
+where the
+
+<album ID>  is obtained from the album URL
+<user ID> is obtained  from Picasa web (navigate to https://picasaweb.google.com while logged in on Google, then open an album, the big number in the URL is the user ID
+Example of a working RSS feed
+
+http://photos.googleapis.com/data/feed/api/user/105765295943114918309/albumid/5841256210457768945?alt=rss
+
+<album ID> in the album URL
+<user ID> in the Picasa web UI
+REFERENCE
+http://stackoverflow.com/questions/16831277/google-plus-api-photos
+
+http://justinlee.sg/2012/03/27/getting-the-media-rss-feed-from-a-google-photo-gallery/
+
+The method to obtain the <user ID> detailed in Justin Lee blog is not usable anymore as the ID is not contained in the URL that Google provides. Use the workaround detailed above via Picasa web UI.

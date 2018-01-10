@@ -1,12 +1,45 @@
 <html>
 <head>
+	<style>
+	body{
+	  background-color:#ccc;
+	  font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif
+	}
+	#heading{
+	  --width: 365px;
+    margin: 0 auto;
+    text-align: center;
+    border-radius: 25px;
+		background: #73AD21;
+		padding: 20px;
+	}
+	#form{
+	  width: 500px;
+    margin: 0 auto;
+    border-radius: 15px;
+		background: #ddd;
+		padding: 20px;
+	}
+	#resultsForm{
+	  width: 85%;
+	  max-width: 1280px;
+    margin: 0 auto;
+    border-radius: 25px;
+		background: #aaa;
+		padding: 15px;
+	}
+	.error{
+	  font-size:0.9em;
+	  color:#ff0000;
+	}
+	</style>
 </head>
 
 <body>
 
 <?php
 
-$profileUrlErr = "";
+$profileUrlErr = $resultsForm = "";
 $homepage = "";
 
 $newLookupUrl = "http://photos.googleapis.com/data/feed/api/user/";
@@ -17,11 +50,12 @@ $defaultProfile = "116749500979671626219";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	if (empty($_POST["profileUrl"])) {
-		$profileUrlErr = "Profile URL is required";
+		$profileUrlErr = "ERROR: Profile URL is required";
 	}
 	else
 	{
-		echo "<h4 style='color:#FF0000;'>ripping ".$newLookupUrl.$_POST["profileUrl"].$newUrlSuffix."</h4>";
+	  $profileUrlErr="";
+
 		$profileUrl = $newLookupUrl.$_POST["profileUrl"].$newUrlSuffix;
 		$homepage = file_get_contents($profileUrl);
 
@@ -39,7 +73,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 			if (strpos($val[0], 's160') !== false) {
 				$formattedvalue = substr($val[0], 6);
 				$formattedvalue = substr(trim($formattedvalue), 0, -3);
-				echo "<img src='".$formattedvalue."' height='160' width='160'>";
+				$resultsForm=$resultsForm."<img src='".$formattedvalue."' height='160' width='160'>";
 		  }
 	  }
 
@@ -50,20 +84,37 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 ?>
 
 
-<h1>Google+ Image Ripper</h1>
-<h2>Handy image ripper for a given Google+ Profile link eg. https://get.google.com/u/0/albumarchive/profile_key</h2>
+<div id="heading"><h1>Google+ Image Ripper</h1></div>
+<h3>Handy image ripper for a given Google+ Profile key eg. 116749500979671626219</h3>
+
+
 
 <br>
 
 <h2>Google Plus Profile</h2>
-<p><span class="error">* required field.</span></p>
+<div id="form">
+<br>
 <form method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>">
-  Profile URL: <input type="text" name="profileUrl" value="<?php echo $defaultProfile; ?>" size="100">
-  <span class="error">* <?php echo $profileUrlErr;?></span>
+<table>
+<tr>
+<td>Profile URL: *</td><td><input type="text" name="profileUrl" value="<?php echo $defaultProfile; ?>" size="30"></td> <td><input type="submit" name="submit" value="Submit"></td>
+</tr>
+<tr>
+<td></td><td><span class="error"><?php echo $profileUrlErr;?></span></td><td></td>
+<tr>
+</table>
 
-  <input type="submit" name="submit" value="Submit">
+
+
+
 </form>
-
+</div>
+<br>
+<?php if ($_SERVER["REQUEST_METHOD"] == "POST" AND !empty($_POST["profileUrl"])) {echo "<h4 style='color:#FF0000;'>ripping ".$newLookupUrl.$_POST["profileUrl"].$newUrlSuffix."</h4>";}?>
+<br>
+<div id="resultsForm">
+  <?php echo $resultsForm;?>
+</div>
 </body>
 
 </html>

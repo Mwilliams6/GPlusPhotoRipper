@@ -2,8 +2,15 @@
 <head>
 	<style>
 	body{
-	  background-color:#ccc;
+	  background-color:#bbb;
 	  font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif
+	}
+	#bodyContent{
+	  width: 90%;
+    margin: 0 auto;
+    border-radius: 25px;
+    background-color:#ccc;
+    padding: 20px;
 	}
 	#heading{
 	  --width: 365px;
@@ -22,7 +29,7 @@
 	}
 	#resultsForm{
 	  width: 85%;
-	  max-width: 1280px;
+	  max-width: 1120px;
     margin: 0 auto;
     border-radius: 25px;
 		background: #aaa;
@@ -82,39 +89,35 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 
 ?>
+	<div id="heading"><h1>Google+ Image Ripper</h1></div>
+	<br>
+	<div id="bodyContent">
+		<h3>Handy image ripper for a given Google+ Profile key eg. 116749500979671626219</h3>
+		<br>
 
 
-<div id="heading"><h1>Google+ Image Ripper</h1></div>
-<h3>Handy image ripper for a given Google+ Profile key eg. 116749500979671626219</h3>
+		<div id="form">
+		<h2>Google Plus Profile</h2>
+			<br>
+			<form method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>">
+				<table>
+					<tr>
+						<td>Profile URL: *</td><td><input type="text" name="profileUrl" value="<?php echo $defaultProfile; ?>" size="30"></td> <td><input type="submit" name="submit" value="Submit"></td>
+					</tr>
+					<tr>
+						<td></td><td><span class="error"><?php echo $profileUrlErr;?></span></td><td></td>
+					<tr>
+				</table>
+			</form>
+		</div>
+		<br>
+		<?php if ($_SERVER["REQUEST_METHOD"] == "POST" AND !empty($_POST["profileUrl"])) {echo "<h4 style='color:#FF0000;'>ripping ".$newLookupUrl.$_POST["profileUrl"].$newUrlSuffix."</h4>";}?>
+		<br>
 
-
-
-<br>
-
-<h2>Google Plus Profile</h2>
-<div id="form">
-<br>
-<form method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>">
-<table>
-<tr>
-<td>Profile URL: *</td><td><input type="text" name="profileUrl" value="<?php echo $defaultProfile; ?>" size="30"></td> <td><input type="submit" name="submit" value="Submit"></td>
-</tr>
-<tr>
-<td></td><td><span class="error"><?php echo $profileUrlErr;?></span></td><td></td>
-<tr>
-</table>
-
-
-
-
-</form>
-</div>
-<br>
-<?php if ($_SERVER["REQUEST_METHOD"] == "POST" AND !empty($_POST["profileUrl"])) {echo "<h4 style='color:#FF0000;'>ripping ".$newLookupUrl.$_POST["profileUrl"].$newUrlSuffix."</h4>";}?>
-<br>
-<div id="resultsForm">
-  <?php echo $resultsForm;?>
-</div>
+		<div id="resultsForm" style="display:<?php if ($_SERVER["REQUEST_METHOD"] == "POST"){echo "block;";}else{echo "none;";}?>">
+			<?php echo $resultsForm;?>
+		</div>
+	</div>
 </body>
 
 </html>

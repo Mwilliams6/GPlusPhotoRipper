@@ -1,8 +1,6 @@
 http://www.stefanocottafavi.com/get-google-photos-rss-feed/
 
-How to get a Google Photos RSS feed
-Want create site? Find Free WordPress Themes and plugins.
-Google Photo is a very effective tool to backup pictures and videos on a mobile device to your Google online services. The backup media are private by default but can be easily shared within the Google service marking them as public via a link, Google+ or creating an Album.
+
 
 BUILD THE RSS FEED
 To reuse an Album (made of pictures or videos) outside of the Google realm avoiding duplication, the RSS feed of the specific source should be used. This can’t be obtained from the Photos user interface but using the API as follow

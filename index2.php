@@ -46,6 +46,41 @@
 
 <?php
 
+function get_url_contents_and_final_url(&$url)
+{
+$http_response_header[]="";
+    do
+    {
+        $context = stream_context_create(
+            array(
+                "http" => array(
+                    "follow_location" => true,
+                ),
+            )
+        );
+
+        $result = file_get_contents($url, false, $context);
+
+        $pattern = "/^Location:\s*(.*)$/i";
+        $location_headers = preg_grep($pattern, $http_response_header);
+
+        if (!empty($location_headers) &&
+            preg_match($pattern, array_values($location_headers)[0], $matches))
+        {
+            $url = $matches[1];
+            $repeat = true;
+        }
+        else
+        {
+            $repeat = false;
+        }
+    }
+    while ($repeat);
+
+    return $result;
+}
+
+
 $profileUrlErr = $resultsForm = "";
 $homepage = "";
 
@@ -85,10 +120,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
   $re5='(data)';	# Word 1
-  $re6='(-)';	# Any Single Character 1
+  $re6='(.*?)';	# Any Single Character 1
   $re7='(mk)';	# Word 2
 
 echo "https://".$formattedvalue."<br><br>";
+
+
 //$subPage = file_get_contents("https://".$formattedvalue);
 
 				//preg_match_all("/".$re5.$re6.$re7."/is", $subPage, $subMatches, PREG_SET_ORDER);
@@ -105,6 +142,16 @@ echo "https://".$formattedvalue."<br><br>";
 
 	  //var_dump(json_decode($homepage, true));
   }
+
+  echo "test_bed  ";
+
+$test_url = "https://picasaweb.google.com/116749500979671626219/ProfilePhotos";
+  $subPage = file_get_contents("https://picasaweb.google.com/116749500979671626219/ProfilePhotos");
+  //preg_match_all("/".$re5.$re6.$re7."/is", $subPage, $subMatches, PREG_SET_ORDER);
+  //				foreach ($subMatches as $val2) {
+  				  //$resultsForm=$resultsForm.$formattedvalue."<br><br>";
+  				  echo "<iframe src='".get_url_contents_and_final_url($test_url)."'></iframe><br><br>}";
+  //				}
 }
 
 ?>

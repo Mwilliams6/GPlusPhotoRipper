@@ -86,15 +86,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 				$rawLink = "https://".$formattedvalue;
 			$subPage = file_get_contents($rawLink, NULL, NULL, 0, 300);
 
-			$re22='(canonical)';	# Word 1
+			$re22='("canonical" href=)';	# Word 1
 			$re23='(.*?)';	# Any Single Character 1
 			$re25='(href)';	# Word 2
 			$re26='(=)';	# Any Single Character 2
-			$re27='(")';	# Any Single Character 3
-			$re28='.*?';	# Non-greedy match on filler
-			$re29='(")';	# Any Single Character 4
+			$re27='(".*?")';	# Any Single Character 3
 
-			preg_match("/".$re22.$re23.$re25.$re26.$re27.$re28.$re29."/is", $subPage, $subMatches);
+			preg_match("/".$re22.$re23.$re25.$re26.$re27."/is", $subPage, $subMatches);
 				foreach ($subMatches as $val2) {
 				  echo $val2[0]."<BR>";
 

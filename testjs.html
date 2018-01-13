@@ -1,0 +1,27 @@
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+<script language="JavaScript">
+
+var slides = new Array();
+var captions = new Array();
+var url3 = 'http://photos.googleapis.com/data/entry/api/user/116749500979671626219/albumid/5761988494811406993?kind=photo&imgmax=800&alt=json';
+console.log('addend1:', url3);
+
+$.getJSON(
+  url3 + '&callback=?').
+  done(function(data){
+    $.each(
+      data.feed.entry || [],
+      function(i, e){
+ var entry = {};
+ $.each(
+  slides[i] = entry.content.src;
+  captions[i] = entry.summary.$t;
+
+
+      });
+  }).
+  fail(function(){
+    // handle failure here
+  });
+
+</script>

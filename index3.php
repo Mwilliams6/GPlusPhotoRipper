@@ -65,57 +65,42 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 	  $profileUrlErr="";
 
 		$profileUrl = $newLookupUrl.$_POST["profileUrl"].$newUrlSuffix;
+		$profileKey = $_POST["profileUrl"];
+		$profileKeyLength = strlen($profileKey);
 		$homepage = file_get_contents($profileUrl);
 
 		//echo $homepage;
+
 
 		$re1='(picasaweb)';	# Word 1
 		$re2='.*?';	# Non-greedy match on filler
 		$re3='(")';	# Any Single Character 3
 
 		preg_match_all("/".$re1.$re2.$re3."/is", $homepage, $matches, PREG_SET_ORDER);
+		array_shift($matches);
 
 		foreach ($matches as $val) {
-			if(substr_count($val[0],"/")>1 and !strrpos($val[0],"http"))
-			{
-				//$formattedvalue = substr($val[0], 6);
+		if (strlen($val[0])>44) {
+
 				$formattedvalue = substr(trim($val[0]), 0, -1);
 				$rawLink = "https://".$formattedvalue;
+			$subPage = file_get_contents($rawLink, NULL, NULL, 0, 300);
 
-				$resultsForm=$resultsForm."<br>Raw:".$rawLink;
+			$re22='(canonical)';	# Word 1
+			$re23='(.*?)';	# Any Single Character 1
+			$re25='(href)';	# Word 2
+			$re26='(=)';	# Any Single Character 2
+			$re27='(")';	# Any Single Character 3
+			$re28='.*?';	# Non-greedy match on filler
+			$re29='(")';	# Any Single Character 4
 
-//				$re5='(data)';	# Word 1
-//				$re6='(.*?)';	# Any Single Character 1
-//				$re7='(mk)';	# Word 2
-
-				$subPage = file_get_contents($rawLink);
-
-				$re22='(canonical)';	# Word 1
-				$re23='(.*?)';	# Any Single Character 1
-				$re25='(href)';	# Word 2
-				$re26='(=)';	# Any Single Character 2
-				$re27='(")';	# Any Single Character 3
-				$re28='.*?';	# Non-greedy match on filler
-				$re29='(")';	# Any Single Character 4
-
-				preg_match("/".$re22.$re23.$re25.$re26.$re27.$re28.$re29."/is", $subPage, $subMatches);
+			preg_match("/".$re22.$re23.$re25.$re26.$re27.$re28.$re29."/is", $subPage, $subMatches);
 				foreach ($subMatches as $val2) {
-									//$resultsForm=$resultsForm.$formattedvalue."<br><br>";
-					//echo "here:".$val2[0];
-					$formattedvalue2 = substr($val2[0], 17);
-					$profilePage = substr(trim($formattedvalue2), 0, -1);
-
-$pos = strrpos($rawLink, '/');
-$id = $pos === false ? $rawLink : substr($rawLink, $pos + 1);
-
-					$albumTitle = $id ;
-
-					$resultsForm=$resultsForm."<br>--><a href='$profilePage'>$albumTitle</a>";
-
-
+				  echo $val2[0]."<BR>";
 
 				}
-			}
+		}
+
   	}
   }
 }
